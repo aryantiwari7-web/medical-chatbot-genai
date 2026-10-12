@@ -1,0 +1,42 @@
+const KB = [
+  { re:/chest pain|can'?t breathe|cannot breathe|short(ness)? of breath|faint|unconscious|stroke|seizure|suicid|self.?harm|heavy bleeding/i, urgent:true,
+    text:"What you've described can be serious. Please don't wait on this.",
+    steps:["Call your local emergency number or get someone to take you to the nearest hospital now.","Sit down, stay calm, and don't be alone if you can help it.","If you're thinking about harming yourself, reach out to a crisis line or someone you trust right away."] },
+  { re:/head ?ache|migraine/i, text:"Headaches are common and usually not dangerous. Most come from tension, dehydration, poor sleep, or too much screen time.",
+    causes:["Tension or stress","Dehydration or skipped meals","Lack of sleep","Eye strain from screens","Migraine (often one-sided, with light sensitivity)"],
+    tips:["Drink a large glass of water and rest in a dark, quiet room","Take a 20-minute break from screens","Gently massage your temples and neck","Eat something light if you haven't eaten"],
+    see:["Sudden, severe 'worst ever' headache","Headache with fever, stiff neck, confusion, or vision changes","Headaches that keep getting worse over days"] },
+  { re:/fever|temperature|body ?ache|chills/i, text:"A fever is your body fighting an infection, most often viral. Here's what usually helps.",
+    causes:["Viral infections like flu or common cold","Bacterial infections","Dengue or malaria (in season or after travel)"],
+    tips:["Rest and drink plenty of fluids (water, ORS, soup)","Wear light clothes and keep the room comfortable","Track your temperature every 4–6 hours","Paracetamol can help; follow the dose on the label"],
+    see:["Fever above 103°F (39.4°C) or lasting more than 3 days","Rash, severe headache, or pain behind the eyes","Trouble breathing, confusion, or persistent vomiting"] },
+  { re:/cough|cold|sore throat|runny|sneez|congest/i, text:"That sounds like a typical upper-respiratory infection. Most clear up within a week.",
+    causes:["Common cold or flu","Allergies or dust","Post-nasal drip","Acid reflux (if the cough is worse at night)"],
+    tips:["Warm fluids and honey in warm water (not for babies under 1)","Steam inhalation or saltwater gargles","Keep your head slightly raised when sleeping","Avoid smoke, dust, and cold drinks"],
+    see:["Cough lasting more than 3 weeks","Coughing blood or wheezing","High fever or breathlessness"] },
+  { re:/stomach|nausea|vomit|diarrh|acidity|gas|bloat|indigestion|loose motion/i, text:"Stomach upsets are usually short-lived and tied to food or a mild infection.",
+    causes:["Food poisoning or a stomach bug","Acidity or indigestion","Too much spicy or oily food","Stress or irregular meals"],
+    tips:["Sip water or ORS in small amounts often","Stick to bland food: banana, rice, toast, curd","Avoid caffeine, alcohol, and oily food for a day","Rest and eat smaller portions"],
+    see:["Blood in stool or vomit","Signs of dehydration: dizziness, very dark urine, dry mouth","Severe or one-sided belly pain, or symptoms lasting over 2 days"] },
+  { re:/sleep|insomnia|can'?t sleep|tired|fatigue/i, text:"Poor sleep affects mood, focus, and immunity, and it's very fixable for most people.",
+    causes:["Irregular sleep schedule","Late caffeine or screen use","Stress or overthinking","Not enough daytime activity"],
+    tips:["Wake up at the same time daily, even on weekends","No screens for 45 minutes before bed","Keep the room cool, dark, and quiet","Skip caffeine after afternoon"],
+    see:["Trouble sleeping for more than 3 weeks","Loud snoring with daytime sleepiness","Low mood or anxiety that's affecting daily life"] },
+  { re:/stress|anxi|panic|worried|overthink|low mood|sad/i, text:"I'm sorry you're feeling this way. What you're feeling is valid, and there are things that can help right now.",
+    causes:["Work, study, or life pressure","Poor sleep or irregular routine","Too much caffeine","Built-up worries without a break"],
+    tips:["Try box breathing: in 4s, hold 4s, out 4s, hold 4s","Step outside for a 10-minute walk","Write down what's on your mind, then pick one small action","Talk to someone you trust"],
+    see:["Feeling hopeless or unable to cope for more than 2 weeks","Panic attacks that keep coming back","Thoughts of harming yourself"] },
+  { re:/back pain|neck pain|muscle|joint|knee|shoulder|sprain/i, text:"Muscle and joint pain is often from posture, overuse, or a minor strain.",
+    causes:["Long hours sitting or bad posture","Overuse or a minor strain","Sleeping position","Lack of stretching"],
+    tips:["Alternate ice (first 48h) and warm compress","Gentle stretching and short walks","Fix your sitting posture and take breaks hourly","Avoid heavy lifting for a few days"],
+    see:["Numbness, tingling, or weakness in arms or legs","Pain after a fall or injury","Pain that doesn't improve in a week"] },
+  { re:/skin|rash|itch|acne|pimple|allerg/i, text:"Skin issues have many causes, and most are harmless and easy to manage.",
+    causes:["Allergy or contact irritation","Dry skin","Heat rash or fungal infection","Hormonal changes (for acne)"],
+    tips:["Avoid scratching and keep the area clean and dry","Use a gentle fragrance-free moisturizer","Note anything new: soap, food, detergent","Wear loose cotton clothing"],
+    see:["Rash with fever, swelling of lips or face, or trouble breathing","Spreading redness, pus, or pain","A rash that lasts more than a week"] }
+];
+const FALLBACK = { text:"Thanks for sharing. I need a bit more detail to be useful. Tell me what you're feeling, where, how long it's been going on, and how severe it is (mild, moderate, or strong).",
+  tips:["Try: 'Headache for 2 days, mild, with nausea'","Mention any fever, medicines, or conditions you already have"] };
+
+// Replace this with your real API / LLM call (can be async)
+export function getReply(q){ return KB.find(k => k.re.test(q)) || FALLBACK; }

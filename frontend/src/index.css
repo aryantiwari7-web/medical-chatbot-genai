@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap');
+:root{
+  --bg:#E9F1F4; --panel:#FFFFFF; --ink:#0B1F2E; --mute:#587083; --line:#D3E1E7;
+  --bot:#EEF5F8; --user:#0E2A3F; --usertx:#F2FAFF; --accent:#00A67E; --accentbg:#E3F7F1;
+  --alert:#C92F36; --alertbg:#FDECEC; --warn:#8A5A00; --warnbg:#FFF4DC;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#050E17; --panel:#0B1A28; --ink:#E6F1F6; --mute:#8CA5B5; --line:#1B3144;
+    --bot:#112638; --user:#0E7C68; --usertx:#FFFFFF; --accent:#2CF5C2; --accentbg:#0F2F2E;
+    --alert:#FF7075; --alertbg:#2A1418; --warn:#F5C26B; --warnbg:#2B2412;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#050E17; --panel:#0B1A28; --ink:#E6F1F6; --mute:#8CA5B5; --line:#1B3144;
+  --bot:#112638; --user:#0E7C68; --usertx:#FFFFFF; --accent:#2CF5C2; --accentbg:#0F2F2E;
+  --alert:#FF7075; --alertbg:#2A1418; --warn:#F5C26B; --warnbg:#2B2412;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  background:var(--bg); color:var(--ink); font-family:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-size:16px; line-height:1.5; display:flex; justify-content:center;
+}
+.app{
+  width:100%; max-width:860px; height:100%; display:flex; flex-direction:column;
+  background:var(--panel); overflow:hidden;
+}
+@media (min-width:900px){
+  body{padding:24px 0}
+  .app{border-radius:28px; border:1px solid var(--line); box-shadow:0 30px 80px -30px rgba(5,30,50,.45)}
+}
+
+/* header with live ECG */
+header{position:relative; background:#071522; color:#E6F1F6; padding:18px 22px 20px; flex:none; overflow:hidden}
+#ecg{position:absolute; inset:0; width:100%; height:100%}
+.head-in{position:relative; display:flex; align-items:center; gap:14px}
+.logo{width:44px; height:44px; border-radius:14px; background:#0E2B3C; display:grid; place-items:center; border:1px solid #1D4155; flex:none}
+.logo svg{width:26px; height:26px}
+h1{font-family:'Bricolage Grotesque',system-ui,sans-serif; font-weight:800; font-size:26px; letter-spacing:-.02em; margin:0; line-height:1}
+.sub{font-size:13px; color:#8FB0C2; margin-top:4px; display:flex; align-items:center; gap:7px}
+.dot{width:8px; height:8px; border-radius:50%; background:#2CF5C2; box-shadow:0 0 0 0 rgba(44,245,194,.6); animation:ping 2s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 8px rgba(44,245,194,0)}100%{box-shadow:0 0 0 0 rgba(44,245,194,0)}}
+.spacer{flex:1}
+.ghost{background:rgba(255,255,255,.07); color:#E6F1F6; border:1px solid #24485D; border-radius:999px; padding:8px 14px; font:500 14px 'Figtree',sans-serif; cursor:pointer}
+.ghost:hover{background:rgba(255,255,255,.14)}
+
+/* chat */
+#chat{flex:1; overflow-y:auto; padding:22px 20px 8px; display:flex; flex-direction:column; gap:16px; scroll-behavior:smooth}
+.msg{display:flex; gap:10px; max-width:100%; animation:in .28s ease-out}
+@keyframes in{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+.msg.user{justify-content:flex-end}
+.av{width:32px; height:32px; border-radius:11px; background:#071522; display:grid; place-items:center; flex:none; margin-top:2px}
+.av svg{width:18px; height:18px}
+.bubble{max-width:min(600px,86%); padding:13px 16px; border-radius:20px; background:var(--bot); overflow-wrap:anywhere}
+.bot .bubble{border-top-left-radius:6px}
+.user .bubble{background:var(--user); color:var(--usertx); border-bottom-right-radius:6px}
+.bubble p{margin:0}
+.sec{margin-top:12px; padding:11px 13px; border-radius:14px; background:var(--panel); border:1px solid var(--line)}
+.sec h3{margin:0 0 6px; font-family:'Bricolage Grotesque',system-ui,sans-serif; font-size:15px; font-weight:600}
+.sec ul{margin:0; padding-left:18px}
+.sec li{margin:3px 0; font-size:15px}
+.sec.see{background:var(--warnbg); border-color:transparent; color:var(--warn)}
+.sec.see h3,.sec.see li{color:var(--warn)}
+.bubble.urgent{background:var(--alertbg); border:1px solid var(--alert)}
+.bubble.urgent .urg-title{display:flex; align-items:center; gap:8px; font-family:'Bricolage Grotesque',system-ui,sans-serif; font-weight:800; font-size:17px; color:var(--alert); margin-bottom:6px}
+.urg-title i{width:10px; height:10px; border-radius:50%; background:var(--alert); animation:ping2 1.1s infinite}
+@keyframes ping2{0%{box-shadow:0 0 0 0 var(--alert)}100%{box-shadow:0 0 0 10px transparent}}
+
+.typing{display:flex; align-items:center; gap:5px; padding:16px 18px}
+.typing span{width:7px; height:7px; border-radius:50%; background:var(--mute); animation:bounce 1s infinite}
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,60%,100%{transform:none; opacity:.5}30%{transform:translateY(-5px); opacity:1}}
+
+/* composer */
+.chips{display:flex; gap:8px; padding:6px 20px 10px; overflow-x:auto; flex:none; scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips.hide{display:none}
+.chip{white-space:nowrap; background:var(--accentbg); color:var(--ink); border:1px solid var(--line); border-radius:999px; padding:8px 14px; font:500 14px 'Figtree',sans-serif; cursor:pointer}
+.chip:hover{border-color:var(--accent)}
+.composer{display:flex; align-items:flex-end; gap:10px; padding:10px 16px 8px; flex:none}
+textarea{
+  flex:1; resize:none; max-height:140px; min-height:50px; border-radius:18px; border:1.5px solid var(--line);
+  background:var(--bot); color:var(--ink); padding:13px 16px; font:400 16px/1.4 'Figtree',sans-serif;
+}
+textarea::placeholder{color:var(--mute)}
+textarea:focus{outline:none; border-color:var(--accent)}
+#send{width:50px; height:50px; border-radius:50%; border:0; background:var(--accent); color:#00281F; display:grid; place-items:center; cursor:pointer; flex:none; transition:transform .15s}
+#send:hover{transform:scale(1.06)}
+#send svg{width:22px; height:22px}
+.note{text-align:center; font-size:12px; color:var(--mute); padding:2px 18px 12px}
+button:focus-visible,textarea:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; scroll-behavior:auto!important}}
+@media (max-width:520px){ header{padding:14px 14px 16px} h1{font-size:22px} .logo{width:38px;height:38px} #chat{padding:16px 12px 6px} .bubble{max-width:90%} }
+
+#root{width:100%;height:100%;display:flex;justify-content:center}
