@@ -72,7 +72,6 @@ medical-chatbot-genai/
 |----------------|---------------|-------------|
 | ![Welcome](images/image1.png) | ![Symptom Query](images/image2.png) | ![Medical Q&A](images/image3.png) |
 
-> Save your three screenshots in an `images/` folder at the repo root and rename them to match the paths above (or update the paths).
 
 ## ⚙️ Setup Instructions
 
